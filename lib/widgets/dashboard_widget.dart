@@ -62,24 +62,40 @@ class DashboardWidget extends StatelessWidget {
                   child: itemStats.isEmpty
                       ? Center(child: Text('No menu items.'))
                       : ListView(
-                          children: itemStats.entries.map((entry) {
-                            final icon = entry.value['icon'];
-                            final count = entry.value['count'];
-                            final profit = entry.value['profit'];
-                            return Card(
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 6, horizontal: 12),
-                              child: ListTile(
-                                leading:
-                                    Text(icon, style: TextStyle(fontSize: 24)),
-                                title: Text('${entry.key}'),
-                                subtitle: Text(
-                                    'Sold: $count     Profit: ৳${profit.toStringAsFixed(2)}'),
-                              ),
-                            );
-                          }).toList(),
+                          children: itemStats.entries.map(
+                            (entry) {
+                              final icon = entry.value['icon'];
+                              final count = entry.value['count'];
+                              final profit = entry.value['profit'];
+                              return Card(
+                                color: Colors
+                                    .green.shade50, // Light green background
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 6, horizontal: 12),
+                                child: ListTile(
+                                  leading: Text(
+                                    icon,
+                                    style: TextStyle(fontSize: 24),
+                                  ),
+                                  title: Text(
+                                    '${entry.key}',
+                                    style: TextStyle(
+                                        color: Colors
+                                            .black), // 🔵 Title text black
+                                  ),
+                                  subtitle: Text(
+                                    'Sold: $count     Profit: ৳${profit.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                        color: Colors
+                                            .black), // 🔵 Subtitle text black
+                                  ),
+                                ),
+                              );
+                            },
+                          ).toList(),
                         ),
                 ),
+
                 // The fixed summary bar
                 Card(
                   color: Colors.green[50],

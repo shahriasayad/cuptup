@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -47,9 +48,15 @@ class _ItemManagementScreenState extends State<ItemManagementScreen> {
                 decoration: InputDecoration(labelText: 'Price'),
                 keyboardType: TextInputType.number),
             TextField(
-                controller: iconController,
-                decoration:
-                    InputDecoration(labelText: 'Icon (emoji or asset)')),
+              controller: iconController,
+              decoration: InputDecoration(labelText: 'Icon (emoji only)'),
+              keyboardType: TextInputType.text,
+              maxLength: 2, // restrict to 1 or 2 characters max
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(
+                    r'[\u2190-\u21FF\u2600-\u27BF\u1F300-\u1F64F\u1F680-\u1F6FF\u1F900-\u1F9FF\u1FA70-\u1FAFF\u1F1E6-\u1F1FF]+')),
+              ],
+            ),
             SizedBox(height: 12),
             ElevatedButton(child: Text('Add Item'), onPressed: addItem),
             SizedBox(height: 20),
