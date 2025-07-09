@@ -43,27 +43,35 @@ class _MenuScreenState extends State<MenuScreen> {
                   itemCount: box.length,
                   itemBuilder: (context, i) {
                     final item = box.getAt(i)!;
-                    return Obx(() => ListTile(
-                          leading: Text(item.icon),
-                          title: Text(item.name),
-                          subtitle: Text('\$${item.price.toStringAsFixed(2)}'),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.remove),
-                                onPressed: () {
-                                  if (quantities[i] > 0) quantities[i]--;
-                                },
+                    return Obx(
+                      () => ListTile(
+                        leading: Text(item.icon),
+                        title: Text(item.name),
+                        subtitle: Text('\$${item.price.toStringAsFixed(2)}'),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.remove,
+                                color: Colors.red,
                               ),
-                              Text(quantities[i].toString()),
-                              IconButton(
-                                icon: Icon(Icons.add),
-                                onPressed: () => quantities[i]++,
+                              onPressed: () {
+                                if (quantities[i] > 0) quantities[i]--;
+                              },
+                            ),
+                            Text(quantities[i].toString()),
+                            IconButton(
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.green,
                               ),
-                            ],
-                          ),
-                        ));
+                              onPressed: () => quantities[i]++,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   },
                 ),
               ),

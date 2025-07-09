@@ -46,9 +46,16 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
         child: Column(
           children: [
             Card(
+              color: Colors.green[50],
               child: ListTile(
-                title: Text('View Menu'),
-                trailing: Icon(Icons.chevron_right),
+                title: Text(
+                  'View Menu',
+                  style: TextStyle(color: Colors.black),
+                ),
+                trailing: Icon(
+                  Icons.chevron_right,
+                  color: Colors.black,
+                ),
                 onTap: () => Get.toNamed('/menu'),
               ),
             ),

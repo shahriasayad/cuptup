@@ -46,9 +46,16 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
         child: Column(
           children: [
             Card(
+              color: Colors.green[50],
               child: ListTile(
-                title: Text('Manage Menu Items'),
-                trailing: Icon(Icons.chevron_right),
+                title: Text(
+                  'Manage Menu Items',
+                  style: TextStyle(color: Colors.black),
+                ),
+                trailing: Icon(
+                  Icons.chevron_right,
+                  color: Colors.black,
+                ),
                 onTap: () => Get.toNamed('/item_management'),
               ),
             ),
