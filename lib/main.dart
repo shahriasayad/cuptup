@@ -10,5 +10,8 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(ItemModelAdapter());
   await HiveService.init();
+  final isRegistered = HiveService.userBox.get('registered') ?? false;
+  final isLoggedIn = HiveService.userBox.get('loggedIn') ?? false;
+
   runApp(const CupTupApp());
 }

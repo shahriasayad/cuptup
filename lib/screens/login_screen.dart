@@ -22,25 +22,37 @@ class _LogInScreenState extends State<LogInScreen> {
       return;
     }
 
-    String? role;
-    if (email == 'owner@gmail.com' && password == 'ownerpass') {
-      role = 'owner';
-    } else if (email == 'employe@gmail.com' && password == 'employeepass') {
-      role = 'employee';
-    } else {
-      Get.snackbar('Error', 'Invalid credentials');
+    // Check registration
+    final isRegistered = HiveService.userBox.get('registered') ?? false;
+    if (!isRegistered) {
+      Get.snackbar('Not Registered', 'Please register first.');
+      Get.offAllNamed('/register');
       return;
     }
 
-    HiveService.setLoggedIn(true);
-    HiveService.userBox.put('username', username);
-    HiveService.userBox.put('email', email);
-    HiveService.setUserRole(role);
+    // Get saved user data from Hive
+    final savedUsername = HiveService.userBox.get('username');
+    final savedEmail = HiveService.userBox.get('email');
+    final savedPassword = HiveService.userBox.get('password');
+    final role = HiveService.userBox.get('role');
 
-    if (role == 'owner') {
-      Get.offAllNamed('/owner_dashboard');
+    // Validate credentials with saved registration
+    if (username == savedUsername &&
+        email == savedEmail &&
+        password == savedPassword) {
+      HiveService.setLoggedIn(true);
+      // Optionally update user info (not needed, but kept for compatibility)
+      HiveService.userBox.put('username', username);
+      HiveService.userBox.put('email', email);
+
+      if (role == 'owner') {
+        Get.offAllNamed('/owner_dashboard');
+      } else {
+        Get.offAllNamed('/employee_dashboard');
+      }
     } else {
-      Get.offAllNamed('/employee_dashboard');
+      Get.snackbar('Error', 'Invalid credentials');
+      return;
     }
   }
 
@@ -67,7 +79,10 @@ class _LogInScreenState extends State<LogInScreen> {
                 obscureText: true,
               ),
               SizedBox(height: 24),
-              ElevatedButton(child: Text('LOGIN'), onPressed: handleLogin),
+              ElevatedButton(
+                child: Text('LOGIN'),
+                onPressed: handleLogin,
+              ),
             ],
           ),
         ),

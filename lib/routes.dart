@@ -1,3 +1,4 @@
+import 'package:cuptup/screens/registration_screen.dart';
 import 'package:get/get.dart';
 import 'screens/login_screen.dart';
 import 'screens/owner_dashboard.dart';
@@ -21,4 +22,5 @@ final appRoutes = [
   GetPage(name: '/transaction_details', page: () => TransactionDetailsScreen()),
   GetPage(name: '/about', page: () => AboutAppScreen()),
   GetPage(name: '/user', page: () => UserPage()),
+  GetPage(name: '/register', page: () => RegistrationPage()),
 ];
