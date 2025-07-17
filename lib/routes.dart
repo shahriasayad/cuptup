@@ -1,4 +1,6 @@
+import 'package:cuptup/screens/forget_password_screen.dart';
 import 'package:cuptup/screens/registration_screen.dart';
+import 'package:cuptup/screens/reset_password_screen.dart';
 import 'package:get/get.dart';
 import 'screens/login_screen.dart';
 import 'screens/owner_dashboard.dart';
@@ -23,4 +25,6 @@ final appRoutes = [
   GetPage(name: '/about', page: () => AboutAppScreen()),
   GetPage(name: '/user', page: () => UserPage()),
   GetPage(name: '/register', page: () => RegistrationPage()),
+  GetPage(name: '/forgot_password', page: () => ForgotPasswordPage()),
+  GetPage(name: '/reset_password', page: () => ResetPasswordPage()),
 ];

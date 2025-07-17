@@ -56,6 +56,10 @@ class _LogInScreenState extends State<LogInScreen> {
     }
   }
 
+  void goToForgotPassword() {
+    Get.toNamed('/forgot_password');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,6 +86,10 @@ class _LogInScreenState extends State<LogInScreen> {
               ElevatedButton(
                 child: Text('LOGIN'),
                 onPressed: handleLogin,
+              ),
+              TextButton(
+                onPressed: goToForgotPassword,
+                child: Text("Forgot Password?"),
               ),
             ],
           ),

@@ -14,7 +14,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
   void initState() {
     super.initState();
     if (HiveService.getUserRole() != 'employee') {
-      // Get.snackbar('Error', 'Unauthorized');
+      Get.snackbar('Error', 'Unauthorized');
       Get.offAllNamed('/login');
     }
   }
