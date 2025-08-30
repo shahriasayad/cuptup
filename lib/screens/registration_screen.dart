@@ -129,60 +129,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 },
               ),
               SizedBox(height: 16),
-              // TextFormField(
-              //   controller: _passwordController,
-              //   decoration: InputDecoration(
-              //     labelText: 'Password',
-              //     suffixIcon: IconButton(
-              //       icon: Icon(_passwordVisible
-              //           ? Icons.visibility_off
-              //           : Icons.visibility),
-              //       onPressed: () {
-              //         setState(() {
-              //           _passwordVisible = !_passwordVisible;
-              //         });
-              //       },
-              //     ),
-              //     border: OutlineInputBorder(),
-              //     prefixIcon: Icon(Icons.lock),
-              //   ),
-              //   obscureText: !_passwordVisible,
-              //   validator: (v) {
-              //     if (v!.isEmpty) return 'Password is required';
-              //     if (v.length < 6)
-              //       return 'Password must be at least 6 characters';
-              //     return null;
-              //   },
-              // ),
-              // SizedBox(height: 16),
-              // TextFormField(
-              //   controller: _confirmController,
-              //   decoration: InputDecoration(
-              //     labelText: 'Confirm Password',
-              //     suffixIcon: IconButton(
-              //       icon: Icon(_passwordVisible
-              //           ? Icons.visibility_off
-              //           : Icons.visibility),
-              //       onPressed: () {
-              //         setState(() {
-              //           _passwordVisible = !_passwordVisible;
-              //         });
-              //       },
-              //     ),
-              //     border: OutlineInputBorder(),
-              //     prefixIcon: Icon(Icons.lock_outline),
-              //   ),
-              //   obscureText: true,
-              //   validator: (v) {
-              //     if (v!.isEmpty) return 'Please confirm your password';
-              //     if (v != _passwordController.text)
-              //       return 'Passwords do not match';
-              //     return null;
-              //   },
-              // ),
-
-              // add two separate state variables
-
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
@@ -208,9 +154,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   return null;
                 },
               ),
-
               SizedBox(height: 16),
-
               TextFormField(
                 controller: _confirmController,
                 decoration: InputDecoration(
@@ -236,7 +180,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   return null;
                 },
               ),
-
               SizedBox(height: 20),
               DropdownButtonFormField<String>(
                 value: _selectedRole,
@@ -294,18 +237,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 child: Text(
                   'Already have an account? Login here',
                   style: TextStyle(color: Colors.blue[700]),
-                ),
-              ),
-              SizedBox(height: 10),
-              TextButton(
-                onPressed: () => Get.toNamed('/api-test'),
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.orange[100],
-                ),
-                child: Text(
-                  '🔧 API Connection Issues? Test Here',
-                  style: TextStyle(
-                      color: Colors.orange[800], fontWeight: FontWeight.bold),
                 ),
               ),
             ],
