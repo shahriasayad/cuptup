@@ -1,72 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/hive_service.dart';
+import 'package:cuptup/data/api_service.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   @override
-  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
+  _ResetPasswordPageState createState() => _ResetPasswordPageState();
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
-  final passwordController = TextEditingController();
-  final confirmController = TextEditingController();
+  final _tokenController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final ApiService _apiService = ApiService();
+  bool _isLoading = false;
 
-  void handleReset() async {
-    final password = passwordController.text.trim();
-    final confirm = confirmController.text.trim();
-
-    if (password.isEmpty || confirm.isEmpty) {
+  Future<void> _resetPassword() async {
+    if (_tokenController.text.isEmpty || _passwordController.text.isEmpty) {
       Get.snackbar('Error', 'Please fill all fields');
       return;
     }
-    if (password.length < 6) {
-      Get.snackbar('Error', 'Password must be at least 6 characters');
-      return;
-    }
-    if (password != confirm) {
-      Get.snackbar('Error', 'Passwords do not match');
+
+    if (_passwordController.text.length < 6) {
+      Get.snackbar('Error', 'Password must be at least 6 characters long');
       return;
     }
 
-    // Simulate API call to reset password (commented for now)
-    // final response = await http.post(...);
+    setState(() => _isLoading = true);
 
-    // Local update for now
-    HiveService.userBox.put('password', password);
-    Get.snackbar('Success', 'Password reset successfully! Please login.');
-    Get.offAllNamed('/login');
+    try {
+      final response = await _apiService.resetPassword(
+        token: _tokenController.text.trim(),
+        newPassword: _passwordController.text,
+      );
+
+      setState(() => _isLoading = false);
+
+      if (response['success'] ?? false) {
+        Get.snackbar(
+          'Success',
+          'Password reset successfully! Please login with your new password.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        Get.offAllNamed('/login');
+      } else {
+        Get.snackbar(
+          'Error',
+          response['message'] ??
+              'Failed to reset password. Please check your token and try again.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      setState(() => _isLoading = false);
+      Get.snackbar(
+        'Error',
+        'Network error. Please check your connection and try again.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Reset Password")),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Set your new password:"),
-              SizedBox(height: 16),
-              TextField(
-                controller: passwordController,
-                decoration: InputDecoration(labelText: 'New Password'),
-                obscureText: true,
-              ),
-              SizedBox(height: 16),
-              TextField(
-                controller: confirmController,
-                decoration: InputDecoration(labelText: 'Confirm Password'),
-                obscureText: true,
-              ),
-              SizedBox(height: 24),
-              ElevatedButton(
-                child: Text('Reset Password'),
-                onPressed: handleReset,
-              ),
-            ],
-          ),
+      appBar: AppBar(title: Text('Reset Password')),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+                'Enter the reset token from your email and your new password.\n\nFor testing: Use "test123" as the token.'),
+            SizedBox(height: 20),
+            TextField(
+              controller: _tokenController,
+              decoration: InputDecoration(labelText: 'Reset Token'),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: 'New Password'),
+              obscureText: true,
+            ),
+            SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: _isLoading ? null : _resetPassword,
+              child: _isLoading
+                  ? CircularProgressIndicator(color: Colors.white)
+                  : Text('Reset Password'),
+            ),
+            TextButton(
+              onPressed: () => Get.back(),
+              child: Text('Cancel'),
+            ),
+          ],
         ),
       ),
     );
