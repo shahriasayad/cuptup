@@ -16,18 +16,15 @@ class MyHttpOverrides extends HttpOverrides {
 
 class ApiService {
   static const String _baseUrl = 'https://cuptup.com/api';
-  static const bool _useMockAPI =
-      true; // Set to true for testing without backend - TEMPORARILY ENABLED FOR DEBUGGING
+  static const bool _useMockAPI = true;
 
-  // Create a custom HTTP client with proper configuration
   static http.Client? _httpClient;
 
   static http.Client get httpClient {
     if (_httpClient == null) {
       _httpClient = http.Client();
-      // For debugging SSL issues, temporarily disable certificate verification
-      HttpOverrides.global =
-          MyHttpOverrides(); // TEMPORARILY ENABLED FOR DEBUGGING
+
+      HttpOverrides.global = MyHttpOverrides();
     }
     return _httpClient!;
   }
@@ -37,12 +34,6 @@ class ApiService {
     _httpClient = null;
   }
 
-  // IMPORTANT: Backend API Configuration:
-  // 1. Production URL: https://cuptup.com/api
-  // 2. Local development: http://localhost:8000/api
-  // 3. Set _useMockAPI = true for offline testing
-
-  // Mock data for testing
   static final List<Map<String, dynamic>> _mockUsers = [
     {
       'id': 1,
@@ -255,39 +246,6 @@ class ApiService {
       'message':
           'Forgot password feature is not currently available. Please contact support.'
     };
-
-    /* Commented out until backend implements this endpoint
-    if (_useMockAPI) {
-      // Simulate network delay
-      await Future.delayed(Duration(seconds: 1));
-      
-      // Check if user exists
-      final user = _mockUsers.firstWhere(
-        (user) => user['email'] == email,
-        orElse: () => {},
-      );
-      
-      if (user.isEmpty) {
-        return {
-          'success': false,
-          'message': 'No account found with this email address'
-        };
-      }
-      
-      // In a real app, you would send an email here
-      // For testing, we'll just return success
-      return {
-        'success': true,
-        'message': 'Password reset link sent to your email'
-      };
-    }
-    
-    return _handleRequest(() => http.post(
-          Uri.parse('$_baseUrl/api/forgot-password'),
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode({'email': email}),
-        ));
-    */
   }
 
   Future<Map<String, dynamic>> resetPassword({
@@ -300,36 +258,6 @@ class ApiService {
       'message':
           'Reset password feature is not currently available. Please contact support.'
     };
-
-    /* Commented out until backend implements this endpoint
-    if (_useMockAPI) {
-      // Simulate network delay
-      await Future.delayed(Duration(seconds: 1));
-      
-      // For mock API, we'll accept any token that looks like "reset_token"
-      if (!token.toLowerCase().contains('reset') && token != 'test123') {
-        return {
-          'success': false,
-          'message': 'Invalid or expired reset token'
-        };
-      }
-      
-      // In a real app, you would update the user's password in the database
-      return {
-        'success': true,
-        'message': 'Password reset successfully'
-      };
-    }
-    
-    return _handleRequest(() => http.post(
-          Uri.parse('$_baseUrl/api/reset-password'),
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode({
-            'reset_token': token,
-            'new_password': newPassword,
-          }),
-        ));
-    */
   }
 
   Future<Map<String, dynamic>> getCurrentUser() async {

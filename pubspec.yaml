@@ -27,4 +27,22 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/logo.png
+
+flutter_native_splash:
+  android: true
+  ios: true
+  color: "#ffffff"
+  image: assets/logo.png
+  color_dark: "#121212"
+  image_dark: assets/logo.png
+  android_12:
+    image: assets/logo.png
+    color: "#ffffff"
+  web: true
+  
+  fill: true
+
+  fullscreen: true
 
