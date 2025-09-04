@@ -27,7 +27,8 @@ class _CartScreenState extends State<CartScreen> {
     }
     final itemsBox = Hive.box<ItemModel>('itemsBox');
     items = itemsBox.values.toList();
-    quantities = List<int>.from(Get.arguments ?? List<int>.filled(items.length, 0));
+    quantities =
+        List<int>.from(Get.arguments ?? List<int>.filled(items.length, 0));
     total = _calculateTotal();
     collectedController = TextEditingController();
     collectedController.addListener(_onCollectedChanged);
@@ -84,71 +85,127 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('Cart')),
       body: selectedCount == 0
-        ? Center(child: Text('No items selected.'))
-        : Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    ...List.generate(items.length, (i) {
-                      if (quantities[i] == 0) return SizedBox.shrink();
-                      final item = items[i];
-                      final subtotal = item.price * quantities[i];
-                      return ListTile(
-                        title: Text('${item.name} x${quantities[i]}'),
-                        trailing: Text('\$${subtotal.toStringAsFixed(2)}'),
-                      );
-                    }),
-                  ],
-                ),
-              ),
-              SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ? Center(child: Text('No items selected.'))
+          : Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
                 children: [
-                  Text('VAT'), Text('\$0.00'),
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        ...List.generate(items.length, (i) {
+                          if (quantities[i] == 0) return SizedBox.shrink();
+                          final item = items[i];
+                          final subtotal = item.price * quantities[i];
+                          return Card(
+                            margin: EdgeInsets.symmetric(vertical: 6),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 2,
+                            child: ListTile(
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.teal.shade100,
+                                child: Text(
+                                  item.name[0].toUpperCase(),
+                                  style: TextStyle(
+                                      color: Colors.teal,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              title: Text(
+                                item.name,
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              subtitle: Text(
+                                'Qty: ${quantities[i]}  •  Price: \৳${item.price.toStringAsFixed(2)}',
+                                style: TextStyle(color: Colors.grey.shade600),
+                              ),
+                              trailing: Text(
+                                '\৳${subtotal.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.teal.shade700,
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('VAT'),
+                      Text('\৳0.00'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Discount'),
+                      Text('\৳0.00'),
+                    ],
+                  ),
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Total',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text('\৳${total.toStringAsFixed(2)}',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                  TextField(
+                    controller: collectedController,
+                    cursorColor: Colors.white,
+                    decoration: InputDecoration(
+                      labelText: 'Collected Amount',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      prefixIcon: Icon(Icons.money, color: Colors.grey),
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.teal),
+                      ),
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                  SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Change',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text('\৳${change.toStringAsFixed(2)}',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                  SizedBox(height: 18),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      minimumSize: const Size.fromHeight(60),
+                    ),
+                    child: Text(
+                      'DONE',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: collected >= total ? handleDone : null,
+                  ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Discount'), Text('\$0.00'),
-                ],
-              ),
-              Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Total', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text('\$${total.toStringAsFixed(2)}', style: TextStyle(fontWeight: FontWeight.bold)),
-                ],
-              ),
-              SizedBox(height: 12),
-              TextField(
-                controller: collectedController,
-                decoration: InputDecoration(labelText: 'Collected Amount'),
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Change', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text('\$${change.toStringAsFixed(2)}', style: TextStyle(fontWeight: FontWeight.bold)),
-                ],
-              ),
-              SizedBox(height: 18),
-              ElevatedButton(
-                child: Text('DONE'),
-                onPressed: collected >= total
-                  ? handleDone
-                  : null,
-              ),
-            ],
-          ),
-        ),
+            ),
     );
   }
 }

@@ -35,7 +35,11 @@ class SalesHistoryScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.delete),
+        backgroundColor: Colors.teal.shade400,
+        child: Icon(
+          Icons.delete,
+          color: Colors.red,
+        ),
         tooltip: 'Clear All',
         onPressed: () async {
           final confirm = await Get.dialog(
@@ -44,10 +48,16 @@ class SalesHistoryScreen extends StatelessWidget {
               actions: [
                 TextButton(
                     onPressed: () => Get.back(result: false),
-                    child: Text('Cancel')),
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(color: Colors.green),
+                    )),
                 TextButton(
                     onPressed: () => Get.back(result: true),
-                    child: Text('Clear')),
+                    child: Text(
+                      'Clear',
+                      style: TextStyle(color: Colors.red),
+                    )),
               ],
             ),
           );

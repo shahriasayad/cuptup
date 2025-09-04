@@ -57,7 +57,6 @@ class DashboardWidget extends StatelessWidget {
 
             return Column(
               children: [
-                // The scrollable item list
                 Expanded(
                   child: itemStats.isEmpty
                       ? Center(child: Text('No menu items.'))
@@ -68,8 +67,7 @@ class DashboardWidget extends StatelessWidget {
                               final count = entry.value['count'];
                               final profit = entry.value['profit'];
                               return Card(
-                                color: Colors
-                                    .green.shade50, // Light green background
+                                color: Colors.teal.shade200,
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 6, horizontal: 12),
                                 child: ListTile(
@@ -79,15 +77,11 @@ class DashboardWidget extends StatelessWidget {
                                   ),
                                   title: Text(
                                     '${entry.key}',
-                                    style: TextStyle(
-                                        color: Colors
-                                            .black), // 🔵 Title text black
+                                    style: TextStyle(color: Colors.black),
                                   ),
                                   subtitle: Text(
                                     'Sold: $count     Profit: ৳${profit.toStringAsFixed(2)}',
-                                    style: TextStyle(
-                                        color: Colors
-                                            .black), // 🔵 Subtitle text black
+                                    style: TextStyle(color: Colors.black),
                                   ),
                                 ),
                               );
@@ -95,10 +89,8 @@ class DashboardWidget extends StatelessWidget {
                           ).toList(),
                         ),
                 ),
-
-                // The fixed summary bar
                 Card(
-                  color: Colors.green[50],
+                  color: Colors.teal.shade100,
                   margin:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   child: Padding(

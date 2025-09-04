@@ -41,17 +41,54 @@ class _ItemManagementScreenState extends State<ItemManagementScreen> {
         child: Column(
           children: [
             TextField(
-                controller: nameController,
-                decoration: InputDecoration(labelText: 'Item Name')),
+              cursorColor: Colors.white,
+              controller: nameController,
+              decoration: InputDecoration(
+                labelText: 'Item Name',
+                labelStyle: TextStyle(color: Colors.grey),
+                border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                ),
+              ),
+            ),
+            SizedBox(height: 18),
             TextField(
+                cursorColor: Colors.white,
                 controller: priceController,
-                decoration: InputDecoration(labelText: 'Price'),
+                decoration: InputDecoration(
+                  labelText: 'Price',
+                  labelStyle: TextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                  ),
+                ),
                 keyboardType: TextInputType.number),
+            SizedBox(height: 19),
             TextField(
-                controller: iconController,
-                decoration: InputDecoration(labelText: 'Icon (emoji)')),
+              controller: iconController,
+              cursorColor: Colors.white,
+              decoration: InputDecoration(
+                labelText: 'Icon (emoji)',
+                labelStyle: TextStyle(color: Colors.grey),
+                border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                ),
+              ),
+            ),
             SizedBox(height: 12),
-            ElevatedButton(child: Text('Add Item'), onPressed: addItem),
+            ElevatedButton(
+                child: Text('Add Item'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.teal,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                onPressed: addItem),
             SizedBox(height: 20),
             Expanded(
               child: ValueListenableBuilder(
@@ -67,7 +104,10 @@ class _ItemManagementScreenState extends State<ItemManagementScreen> {
                         title: Text(item.name),
                         subtitle: Text('\$${item.price.toStringAsFixed(2)}'),
                         trailing: IconButton(
-                          icon: Icon(Icons.delete),
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
                           onPressed: () => box.deleteAt(i),
                         ),
                       );

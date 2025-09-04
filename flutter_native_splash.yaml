@@ -14,7 +14,7 @@ flutter_native_splash:
 
   android: true
   ios: true
-  web: true
+  # web: true
 
   android_gravity: center
   ios_content_mode: scaleAspectFit

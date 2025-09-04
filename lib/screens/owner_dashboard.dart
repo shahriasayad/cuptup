@@ -40,21 +40,21 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
       appBar: AppBar(
         title: Text('Owner Dashboard'),
       ),
-      drawer: CupTupDrawer(), // Drawer is always on left
+      drawer: CupTupDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
             Card(
-              color: Colors.green[50],
+              color: Colors.teal,
               child: ListTile(
                 title: Text(
                   'Manage Menu Items',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.white),
                 ),
                 trailing: Icon(
                   Icons.chevron_right,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
                 onTap: () => Get.toNamed('/item_management'),
               ),

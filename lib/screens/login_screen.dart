@@ -61,7 +61,6 @@ class _LogInScreenState extends State<LogInScreen> {
           Get.offAllNamed('/employee_dashboard');
         }
       } else if (response['token'] != null) {
-        // Handle direct token response (for backward compatibility)
         final token = response['token'];
         final role = response['role'];
 
@@ -101,7 +100,10 @@ class _LogInScreenState extends State<LogInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(
+        title: Text('Login'),
+        backgroundColor: Colors.teal,
+      ),
       body: Center(
         child: Container(
           constraints: BoxConstraints(
@@ -114,20 +116,44 @@ class _LogInScreenState extends State<LogInScreen> {
             children: [
               TextField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                cursorColor: Colors.white,
+                // decoration: InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  labelStyle: TextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.email,
+                    color: Colors.teal,
+                  ),
+                ),
                 keyboardType: TextInputType.emailAddress,
               ),
               SizedBox(height: 16),
               TextField(
+                cursorColor: Colors.white,
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  labelStyle: TextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                  ),
                   suffixIcon: IconButton(
                     icon: Icon(_obscurePassword
                         ? Icons.visibility_off
                         : Icons.visibility),
+                    color: Colors.teal,
                     onPressed: () =>
                         setState(() => _obscurePassword = !_obscurePassword),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.lock,
+                    color: Colors.teal,
                   ),
                 ),
                 obscureText: _obscurePassword,
@@ -142,23 +168,49 @@ class _LogInScreenState extends State<LogInScreen> {
                         ))
                     .toList(),
                 onChanged: (v) => setState(() => _selectedRole = v!),
-                decoration: InputDecoration(labelText: 'Login As'),
+                decoration: InputDecoration(
+                  labelText: 'Login As',
+                  labelStyle: TextStyle(color: Colors.grey),
+                  prefixIcon: Icon(
+                    Icons.admin_panel_settings,
+                    color: Colors.teal,
+                  ),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                  ),
+                ),
               ),
               SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: _isLoading ? null : _login,
-                child: _isLoading
-                    ? CircularProgressIndicator(color: Colors.white)
-                    : Text('Login'),
+              SizedBox(
+                height: 50,
+                width: 220,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.teal)),
+                  onPressed: _isLoading ? null : _login,
+                  child: _isLoading
+                      ? CircularProgressIndicator(color: Colors.white)
+                      : Text(
+                          'Login',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                ),
               ),
-              // Note: Forgot password feature not yet implemented in backend
+
               // TextButton(
               //   onPressed: () => Get.toNamed('/forgot-password'),
               //   child: Text('Forgot Password?'),
               // ),
               TextButton(
                 onPressed: () => Get.toNamed('/register'),
-                child: Text('Create New Account'),
+                child: Text(
+                  'Create New Account',
+                  style: TextStyle(color: Colors.teal),
+                ),
               ),
             ],
           ),

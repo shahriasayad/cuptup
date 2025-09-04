@@ -47,8 +47,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
           'Success',
           'Registration successful! Please login.',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
+          backgroundColor: Colors.teal.shade200,
+          colorText: Colors.black,
         );
         Get.offAllNamed('/login');
       } else {
@@ -69,7 +69,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           colorText: Colors.white,
-          duration: Duration(seconds: 8),
+          duration: Duration(seconds: 6),
         );
       }
     } catch (e) {
@@ -81,8 +81,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         'Network error occurred. Mock API is enabled for testing.\n\nOriginal error: $e',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.orange,
-        colorText: Colors.white,
-        duration: Duration(seconds: 10),
+        colorText: Colors.black,
+        duration: Duration(seconds: 6),
       );
     }
   }
@@ -92,7 +92,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Account'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
       ),
       body: Padding(
@@ -103,20 +103,36 @@ class _RegistrationPageState extends State<RegistrationPage> {
             children: [
               TextFormField(
                 controller: _usernameController,
+                cursorColor: Colors.white,
                 decoration: InputDecoration(
                   labelText: 'Username',
+                  labelStyle: TextStyle(color: Colors.grey),
                   border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.person,
+                    color: Colors.teal,
+                  ),
                 ),
                 validator: (v) => v!.isEmpty ? 'Username is required' : null,
               ),
               SizedBox(height: 16),
               TextFormField(
                 controller: _emailController,
+                cursorColor: Colors.white,
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  labelStyle: TextStyle(color: Colors.grey),
                   border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.email),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.email,
+                    color: Colors.teal,
+                  ),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (v) {
@@ -130,13 +146,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               SizedBox(height: 16),
               TextFormField(
+                cursorColor: Colors.white,
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  labelStyle: TextStyle(color: Colors.grey),
                   suffixIcon: IconButton(
-                    icon: Icon(_passwordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off),
+                    icon: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.teal,
+                    ),
                     onPressed: () {
                       setState(() {
                         _passwordVisible = !_passwordVisible;
@@ -144,9 +165,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     },
                   ),
                   border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.teal, width: 2.0), // when focused
+                  ),
+                  prefixIcon: Icon(
+                    Icons.lock,
+                    color: Colors.teal,
+                  ),
                 ),
-                obscureText: !_passwordVisible, // works correctly
+                obscureText: !_passwordVisible,
                 validator: (v) {
                   if (v!.isEmpty) return 'Password is required';
                   if (v.length < 6)
@@ -157,12 +185,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
               SizedBox(height: 16),
               TextFormField(
                 controller: _confirmController,
+                cursorColor: Colors.white,
                 decoration: InputDecoration(
                   labelText: 'Confirm Password',
+                  labelStyle: TextStyle(color: Colors.grey),
                   suffixIcon: IconButton(
-                    icon: Icon(_confirmPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off),
+                    icon: Icon(
+                      _confirmPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.teal,
+                    ),
                     onPressed: () {
                       setState(() {
                         _confirmPasswordVisible = !_confirmPasswordVisible;
@@ -170,9 +203,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     },
                   ),
                   border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock_outline),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.lock_outline,
+                    color: Colors.teal,
+                  ),
                 ),
-                obscureText: !_confirmPasswordVisible, // FIXED: was hardcoded
+                obscureText: !_confirmPasswordVisible,
                 validator: (v) {
                   if (v!.isEmpty) return 'Please confirm your password';
                   if (v != _passwordController.text)
@@ -183,17 +222,32 @@ class _RegistrationPageState extends State<RegistrationPage> {
               SizedBox(height: 20),
               DropdownButtonFormField<String>(
                 value: _selectedRole,
-                items: ['owner', 'employee']
-                    .map((role) => DropdownMenuItem(
-                          value: role,
-                          child: Text(role.toUpperCase()),
-                        ))
-                    .toList(),
+                items: [
+                  DropdownMenuItem(
+                    value: 'owner',
+                    child: Text('OWNER'),
+                  ),
+                  DropdownMenuItem<String>(
+                    enabled: false,
+                    child: Divider(thickness: 1, color: Colors.grey),
+                  ),
+                  DropdownMenuItem(
+                    value: 'employee',
+                    child: Text('EMPLOYEE'),
+                  ),
+                ],
                 onChanged: (v) => setState(() => _selectedRole = v!),
                 decoration: InputDecoration(
                   labelText: 'Account Type',
+                  labelStyle: TextStyle(color: Colors.grey),
                   border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.business),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.admin_panel_settings,
+                    color: Colors.teal,
+                  ),
                 ),
               ),
               SizedBox(height: 30),
@@ -202,7 +256,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _register,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Colors.teal,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -236,7 +290,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 onPressed: () => Get.toNamed('/login'),
                 child: Text(
                   'Already have an account? Login here',
-                  style: TextStyle(color: Colors.blue[700]),
+                  style: TextStyle(color: Colors.teal[700]),
                 ),
               ),
             ],

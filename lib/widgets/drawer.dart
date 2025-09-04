@@ -5,24 +5,42 @@ import '../data/hive_service.dart';
 class CupTupDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final username = HiveService.userBox.get('username') ?? '';
-    final email = HiveService.userBox.get('email') ?? '';
+    // final username = HiveService.userBox.get('username') ?? '';
+    // final email = HiveService.userBox.get('email') ?? '';
     final role = HiveService.userBox.get('role') ?? '';
     return Drawer(
+      backgroundColor: Colors.teal.shade900,
       child: ListView(
         children: [
-          UserAccountsDrawerHeader(
-            accountName: Text('$username'),
-            accountEmail: Text('$email'),
-            currentAccountPicture: CircleAvatar(
-              child: Text(username.isNotEmpty ? username[0] : '?'),
+          DrawerHeader(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/logo.png'),
+                // fit: BoxFit.cover,
+              ),
+            ),
+            child: Text(
+              '',
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text('User'),
-            onTap: () => Get.toNamed('/user'),
-          ),
+
+          // UserAccountsDrawerHeader(
+          //   accountName: Text('$username'),
+          //   accountEmail: Text('$email'),
+          //   currentAccountPicture: CircleAvatar(
+          //     child: Text(username.isNotEmpty ? username[0] : '?'),
+          //   ),
+          // ),
+          // ListTile(s
+          //   leading: Icon(Icons.person),
+          //   title: Text('User'),
+          //   onTap: () => Get.toNamed('/user'),
+          // ),
           ListTile(
             leading: Icon(Icons.history),
             title: Text('Sales History'),
@@ -43,10 +61,17 @@ class CupTupDrawer extends StatelessWidget {
                   actions: [
                     TextButton(
                         onPressed: () => Get.back(result: false),
-                        child: Text('Cancel')),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(color: Colors.green),
+                        )),
                     TextButton(
-                        onPressed: () => Get.back(result: true),
-                        child: Text('Logout')),
+                      onPressed: () => Get.back(result: true),
+                      child: Text(
+                        'Logout',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -57,7 +82,7 @@ class CupTupDrawer extends StatelessWidget {
               }
             },
           ),
-          if (role == 'owner') // Only visible for owners!
+          if (role == 'owner')
             ListTile(
               leading: Icon(Icons.delete_forever),
               title: Text('Wipe Data'),
@@ -69,11 +94,19 @@ class CupTupDrawer extends StatelessWidget {
                         'This will erase all sales data and reset statistics.'),
                     actions: [
                       TextButton(
-                          onPressed: () => Get.back(result: false),
-                          child: Text('Cancel')),
+                        onPressed: () => Get.back(result: false),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(color: Colors.green),
+                        ),
+                      ),
                       TextButton(
-                          onPressed: () => Get.back(result: true),
-                          child: Text('Wipe')),
+                        onPressed: () => Get.back(result: true),
+                        child: Text(
+                          'Wipe',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
                     ],
                   ),
                 );

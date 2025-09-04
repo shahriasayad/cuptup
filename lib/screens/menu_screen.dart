@@ -33,7 +33,7 @@ class _MenuScreenState extends State<MenuScreen> {
         valueListenable: itemsBox.listenable(),
         builder: (context, Box<ItemModel> box, _) {
           if (box.isEmpty) return Center(child: Text('No menu items.'));
-          // Adjust quantities length if items are added/removed
+
           if (quantities.length != box.length)
             quantities.value = List<int>.filled(box.length, 0);
           return Column(
@@ -47,7 +47,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       () => ListTile(
                         leading: Text(item.icon),
                         title: Text(item.name),
-                        subtitle: Text('\$${item.price.toStringAsFixed(2)}'),
+                        subtitle: Text('\৳${item.price.toStringAsFixed(2)}'),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -76,13 +76,20 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
               ),
               Obx(() => ElevatedButton(
-                    child: Text('Go to Cart'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.teal,
+                      minimumSize: const Size.fromHeight(60),
+                    ),
+                    child: Text(
+                      'Go to Cart',
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
                     onPressed: quantities.any((q) => q > 0)
                         ? () =>
                             Get.toNamed('/cart', arguments: quantities.toList())
                         : null,
                   )),
-              SizedBox(height: 16),
+              SizedBox(height: 50),
             ],
           );
         },
